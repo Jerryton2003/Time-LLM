@@ -1,5 +1,6 @@
 import argparse
 import torch
+import pandas as pd
 from accelerate import Accelerator, DeepSpeedPlugin
 from accelerate import DistributedDataParallelKwargs
 from torch import nn, optim
@@ -170,6 +171,7 @@ for ii in range(args.itr):
     if args.use_amp:
         scaler = torch.cuda.amp.GradScaler()
 
+    df = pd.DataFrame()
     for epoch in range(args.train_epochs):
         iter_count = 0
         train_loss = []
@@ -184,10 +186,12 @@ for ii in range(args.itr):
             batch_y = batch_y.float().to(accelerator.device)
             batch_x_mark = batch_x_mark.float().to(accelerator.device)
             batch_y_mark = batch_y_mark.float().to(accelerator.device)
-            print('======================X is=====================')
-            print(batch_x)
-            print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-            print(batch_y)
+            if epoch is 0:
+                df = df.append({"batch_x": batch_x.cpu().numpy(), "batch_y": batch_y.cpu().numpy()}, ignore_index=True)
+            # print('======================X is=====================')
+            # print(batch_x)
+            # print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+            # print(batch_y)
             # decoder input
             dec_inp = torch.zeros_like(batch_y[:, -args.pred_len:, :]).float().to(
                 accelerator.device)
@@ -266,8 +270,9 @@ for ii in range(args.itr):
         else:
             accelerator.print('Updating learning rate to {}'.format(scheduler.get_last_lr()[0]))
 
+df.to_csv("batch_data.csv", index=False)
 accelerator.wait_for_everyone()
 if accelerator.is_local_main_process:
     path = './checkpoints'  # unique checkpoint saving path
-    del_files(path)  # delete checkpoint files
-    accelerator.print('success delete checkpoints')
+    # del_files(path)  # delete checkpoint files
+    # accelerator.print('success delete checkpoints')

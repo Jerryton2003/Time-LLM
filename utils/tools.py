@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import shutil
+import datetime
 
 from tqdm import tqdm
 
@@ -181,6 +182,14 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
 
     total_loss = np.average(total_loss)
     total_mae_loss = np.average(total_mae_loss)
+
+    fig, ax = plt.subplots()
+    ax.plot(pred.cpu().numpy(), label='Predicted')
+    ax.plot(true.cpu().numpy(), label='Actual')
+    ax.set_title(f'MAE Loss: {total_mae_loss:.4f}')
+    ax.legend()
+    plt.savefig(f'validation_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.png')
+    plt.close(fig)
 
     model.train()
     return total_loss, total_mae_loss
