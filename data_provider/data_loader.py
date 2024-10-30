@@ -10,10 +10,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #TODO: Modify this Method
-class Dataset_ETT_hour(Dataset):
+class Dataset_DKASC(Dataset):
     def __init__(self, root_path, flag='train', size=None,
-                 features='S', data_path='ETTh1.csv',
-                 target='OT', scale=True, timeenc=0, freq='h', percent=100,
+                 features='S', data_path='P_Alice_Springs_2023.csv',
+                 target='96_DKA_MasterMeter1_Active_Power', scale=True, timeenc=0, freq='h', percent=100,
                  seasonal_patterns=None):
         if size == None:
             self.seq_len = 24 * 4 * 4
@@ -48,8 +48,8 @@ class Dataset_ETT_hour(Dataset):
         df_raw = pd.read_csv(os.path.join(self.root_path,
                                           self.data_path))
 
-        border1s = [0, 12 * 30 * 24 - self.seq_len, 12 * 30 * 24 + 4 * 30 * 24 - self.seq_len]
-        border2s = [12 * 30 * 24, 12 * 30 * 24 + 4 * 30 * 24, 12 * 30 * 24 + 8 * 30 * 24]
+        border1s = [0, 6 * 30 * 24 - self.seq_len, 6 * 30 * 24 + 2 * 30 * 24 - self.seq_len]
+        border2s = [6 * 30 * 24, 6 * 30 * 24 + 2 * 30 * 24, 6 * 30 * 24 + 4 * 30 * 24]
 
         border1 = border1s[self.set_type]
         border2 = border2s[self.set_type]
