@@ -184,7 +184,10 @@ for ii in range(args.itr):
             batch_y = batch_y.float().to(accelerator.device)
             batch_x_mark = batch_x_mark.float().to(accelerator.device)
             batch_y_mark = batch_y_mark.float().to(accelerator.device)
-
+            print('======================X is=====================')
+            print(batch_x)
+            print('yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+            print(batch_y)
             # decoder input
             dec_inp = torch.zeros_like(batch_y[:, -args.pred_len:, :]).float().to(
                 accelerator.device)
