@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 class Dataset_DKASC(Dataset):
     def __init__(self, root_path, flag='train', size=None,
                  features='S', data_path='P_DKASC.csv',
-                 target='96_DKA_MasterMeter1_Active_Power', scale=True, timeenc=0, freq='h', percent=100,
+                 target='hourly_data', scale=True, timeenc=0, freq='h', percent=100,
                  seasonal_patterns=None):
         if size == None:
             self.seq_len = 24 * 4 * 4

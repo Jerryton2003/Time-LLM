@@ -9,7 +9,7 @@ batch_size=16
 d_model=32
 d_ff=128
 
-comment='TimeLLM-ETTh1'
+comment='TimeLLM_AS'
 
 accelerate launch --multi_gpu --mixed_precision bf16 --num_processes $num_process --main_process_port $master_port run_main.py \
   --task_name long_term_forecast \
@@ -19,7 +19,8 @@ accelerate launch --multi_gpu --mixed_precision bf16 --num_processes $num_proces
   --model_id DKASC_512_96 \
   --model $model_name \
   --data AS \
-  --features M \
+  --features S \
+  --target 'hourly_data' \
   --seq_len 512 \
   --label_len 48 \
   --pred_len 96 \

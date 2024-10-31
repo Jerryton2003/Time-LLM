@@ -186,7 +186,7 @@ for ii in range(args.itr):
             batch_y = batch_y.float().to(accelerator.device)
             batch_x_mark = batch_x_mark.float().to(accelerator.device)
             batch_y_mark = batch_y_mark.float().to(accelerator.device)
-            if epoch is 0:
+            if epoch == 0:
                 df = df.append({"batch_x": batch_x.cpu().numpy(), "batch_y": batch_y.cpu().numpy()}, ignore_index=True)
             # print('======================X is=====================')
             # print(batch_x)

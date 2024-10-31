@@ -183,9 +183,11 @@ def vali(args, accelerator, model, vali_data, vali_loader, criterion, mae_metric
     total_loss = np.average(total_loss)
     total_mae_loss = np.average(total_mae_loss)
 
+    pred_i = pred[0]  # 每次选择一个样本
+    true_i = true[0, :, 0]
     fig, ax = plt.subplots()
-    ax.plot(pred.cpu().numpy(), label='Predicted')
-    ax.plot(true.cpu().numpy(), label='Actual')
+    ax.plot(pred_i.cpu().numpy(), label='Predicted')
+    ax.plot(true_i.cpu().numpy(), label='Actual')
     ax.set_title(f'MAE Loss: {total_mae_loss:.4f}')
     ax.legend()
     plt.savefig(f'validation_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}.png')
